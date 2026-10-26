@@ -3,6 +3,7 @@ import { useState } from 'react'
 function Todos() {
   const [text, setText] = useState('')
   const [todos, setTodos] = useState([])
+  const [filter, setFilter] = useState('All')
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -35,6 +36,13 @@ function Todos() {
     const allCompleted = todos.every((todo) => todo.completed)
     setTodos(todos.map((todo) => ({ ...todo, completed: !allCompleted })))
   }
+
+ 
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === 'Active') return !todo.completed
+    if (filter === 'Completed') return todo.completed
+    return true
+  })
 
   return (
     <section className="mx-auto max-w-[550px]">
@@ -73,7 +81,8 @@ function Todos() {
               </label>
 
               <ul>
-                {todos.map((todo) => (
+             
+                {filteredTodos.map((todo) => (
                   <li
                     key={todo.id}
                     className="group relative flex items-center border-b border-[#ededed] text-2xl"
@@ -115,17 +124,29 @@ function Todos() {
               
               <ul className="flex justify-center gap-1">
                 <li>
-                  <button type="button" className="cursor-pointer rounded-[3px] border border-[#bb3f45]/20 px-[7px] py-[3px]">
+                  <button 
+                    type="button" 
+                    onClick={() => setFilter('All')}
+                    className={filter === 'All' ? "cursor-pointer rounded-[3px] border border-[#bb3f45]/20 px-[7px] py-[3px]" : "cursor-pointer rounded-[3px] border border-transparent px-[7px] py-[3px] hover:border-[#bb3f45]/10"}
+                  >
                     All
                   </button>
                 </li>
                 <li>
-                  <button type="button" className="cursor-pointer rounded-[3px] border border-transparent px-[7px] py-[3px] hover:border-[#bb3f45]/10">
+                  <button 
+                    type="button" 
+                    onClick={() => setFilter('Active')}
+                    className={filter === 'Active' ? "cursor-pointer rounded-[3px] border border-[#bb3f45]/20 px-[7px] py-[3px]" : "cursor-pointer rounded-[3px] border border-transparent px-[7px] py-[3px] hover:border-[#bb3f45]/10"}
+                  >
                     Active
                   </button>
                 </li>
                 <li>
-                  <button type="button" className="cursor-pointer rounded-[3px] border border-transparent px-[7px] py-[3px] hover:border-[#bb3f45]/10">
+                  <button 
+                    type="button" 
+                    onClick={() => setFilter('Completed')}
+                    className={filter === 'Completed' ? "cursor-pointer rounded-[3px] border border-[#bb3f45]/20 px-[7px] py-[3px]" : "cursor-pointer rounded-[3px] border border-transparent px-[7px] py-[3px] hover:border-[#bb3f45]/10"}
+                  >
                     Completed
                   </button>
                 </li>
