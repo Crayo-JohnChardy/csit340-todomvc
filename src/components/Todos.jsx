@@ -2,8 +2,6 @@ import { useState } from 'react'
 
 function Todos() {
   const [text, setText] = useState('')
-  
-  
   const [todos, setTodos] = useState([])
 
   function handleSubmit(e) {
@@ -45,7 +43,6 @@ function Todos() {
           />
         </form>
 
-        
         {todos.length > 0 && (
           <>
             <main className="relative border-t border-[#e6e6e6]">
@@ -92,7 +89,10 @@ function Todos() {
 
             <footer className="grid h-10 grid-cols-3 items-center border-t border-[#e6e6e6] px-4 text-sm text-[#777]">
               <span>
-                <strong className="font-light">1</strong> item left
+                <strong className="font-light">
+                  {todos.filter((todo) => !todo.completed).length}
+                </strong>{" "}
+                item left
               </span>
               
               <ul className="flex justify-center gap-1">
